@@ -37,6 +37,10 @@ Store this in `pages/<id>/brief.md`:
 - Must not show:
 - Approved copy:
 - Visual direction:
+- Reference canvas and aspect ratio:
+- Fidelity target: exact / close / inspired
+- Asset inventory: native / SVG / raster / background
+- Approved deviations:
 - Presenter note:
 ```
 
@@ -56,6 +60,6 @@ When information is incomplete, propose a working assumption and label it. Do no
 
 ## Locking policy
 
-A page may be locked when its takeaway and copy are approved, the preview is accepted, meaningful content is editable, no clipping or collision remains, the page module compiles independently, and its state is updated in `manifest.json`.
+A page may be locked when its takeaway and copy are approved, the preview is accepted, meaningful content is editable, approved visual assets are present, colors and typography match the page tokens, no unexplained fidelity deviation remains, no clipping or collision remains, the page module compiles independently, and its state is updated in `manifest.json`.
 
 After final delivery, manual animations and small logo adjustments are expected. They are outside source synchronization unless the user deliberately reopens the page and provides the updated PPTX as a new reference.
