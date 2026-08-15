@@ -22,6 +22,42 @@ Separate stable style—color temperature, typography hierarchy, whitespace, ali
 
 Do not clone protected logos or copyrighted artwork. User-supplied brand assets may be placed as supplied.
 
+## Color fidelity
+
+When a reference image is approved, treat its palette as a constraint rather than inspiration.
+
+1. Run `scripts/analyze_reference_image.mjs` to obtain canvas dimensions and dominant color candidates.
+2. Inspect representative pixels from the title, body text, accent, background, surface, border, and illustration regions.
+3. Assign each selected color to a semantic token in `theme.json`.
+4. Reuse those tokens everywhere. Do not create slightly different blues, grays, or golds for visually equivalent roles.
+5. Render the PPTX and compare it with the reference. Correct palette drift caused by theme substitution, transparency, gradients, or font anti-aliasing.
+
+For gradients, record both endpoints, direction, and approximate stop positions. For translucent surfaces, record the composited appearance and the underlying background.
+
+## Typography normalization
+
+Extract hierarchy first, then normalize sizes. Do not reproduce every rasterized measurement as a separate font size.
+
+- Define semantic roles such as `deckTitle`, `slideTitle`, `section`, `cardTitle`, `body`, `caption`, `metric`, and `annotation`.
+- Give every role one default size and at most one compact variant.
+- Use integer or 0.5 pt increments. Round noisy inferred values such as 12.8 to 13 and 17.3 to 17.5.
+- Keep the same role at the same size across a slide and preferably across the deck.
+- Preserve important ratios from the reference: title-to-body, metric-to-label, and primary-to-secondary hierarchy.
+- Shorten copy or adjust the frame before shrinking text. Do not create one-off tiny sizes merely to force a fit.
+
+Suggested 16:9 business ranges:
+
+| Role | Typical range |
+|---|---:|
+| Deck title | 44-56 pt |
+| Slide title | 30-40 pt |
+| Section/card title | 20-28 pt |
+| Body | 16-20 pt |
+| Caption/annotation | 11-15 pt |
+| Metric | 32-56 pt |
+
+These ranges are guardrails, not replacements for a supplied template. After choosing sizes, store them in `theme.json` and reference the tokens from slide code instead of hardcoding repeated values.
+
 ## Suggested `theme.json`
 
 ```json
@@ -43,7 +79,7 @@ Do not clone protected logos or copyrighted artwork. User-supplied brand assets 
     "surface": "FFFFFF",
     "line": "D9E5F5"
   },
-  "typeScale": {"title": 35, "section": 24, "body": 16, "caption": 11, "metric": 32},
+  "typeScale": {"deckTitle": 50, "slideTitle": 36, "section": 24, "cardTitle": 20, "body": 17, "caption": 12, "metric": 42, "annotation": 12},
   "geometry": {"marginX": 0.55, "marginY": 0.42, "radius": 0.12, "lineWidth": 1},
   "style": {"mode": "light", "density": "balanced", "tone": ["technical", "executive", "restrained"], "shadow": "soft", "gradient": "minimal"}
 }
