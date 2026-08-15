@@ -1,0 +1,40 @@
+{
+  "layout": "LAYOUT_WIDE",
+  "fonts": {
+    "zh": "Microsoft YaHei",
+    "latin": "Times New Roman",
+    "numbers": "Times New Roman",
+    "fallbackZh": ["Noto Sans CJK SC", "Source Han Sans SC", "SimHei"],
+    "fallbackLatin": ["Aptos", "Arial", "Liberation Sans"]
+  },
+  "colors": {
+    "primary": "1769FF",
+    "accent": "13B8FF",
+    "ink": "101828",
+    "muted": "667085",
+    "background": "F7FAFF",
+    "surface": "FFFFFF",
+    "line": "D9E5F5",
+    "success": "12B76A"
+  },
+  "typeScale": {
+    "title": 35,
+    "section": 24,
+    "body": 16,
+    "caption": 11,
+    "metric": 32
+  },
+  "geometry": {
+    "marginX": 0.55,
+    "marginY": 0.42,
+    "radius": 0.12,
+    "lineWidth": 1
+  },
+  "style": {
+    "mode": "light",
+    "density": "balanced",
+    "tone": ["technical", "executive", "restrained"],
+    "shadow": "soft",
+    "gradient": "minimal"
+  }
+}

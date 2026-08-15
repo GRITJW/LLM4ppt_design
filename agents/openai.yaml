@@ -1,0 +1,4 @@
+interface:
+  display_name: "精美可编辑 PPT 工作流"
+  short_description: "逐页设计、视觉校准并生成精美且原生可编辑的 PowerPoint 演示文稿"
+  default_prompt: "使用 $build-polished-decks 将我的想法逐页整理、定稿并生成原生可编辑的 PowerPoint。"

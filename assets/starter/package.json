@@ -1,0 +1,16 @@
+{
+  "name": "editable-deck-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node compile.mjs --out output/deck.pptx",
+    "build:page": "node compile.mjs --only 001 --out output/page-001.pptx"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

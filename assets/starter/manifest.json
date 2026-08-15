@@ -1,0 +1,15 @@
+{
+  "title": "Editable deck starter",
+  "subject": "One slide per module",
+  "author": "build-polished-decks",
+  "company": "",
+  "language": "zh-CN",
+  "pages": [
+    {
+      "id": "001",
+      "module": "./pages/001/slide.mjs",
+      "state": "qa-passed",
+      "enabled": true
+    }
+  ]
+}
