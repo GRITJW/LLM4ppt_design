@@ -1,0 +1,96 @@
+# LLM4PPT Design
+
+一个面向 **AI 辅助制作精美、原生可编辑 PowerPoint** 的逐页工作流。
+
+它不追求一次生成整套 PPT，而是帮助用户先把单页内容和视觉方向讨论清楚，再将确认后的设计重建为可编辑的 PowerPoint 对象，最后按顺序合并成完整演示文稿。
+
+## 适合谁
+
+- 有汇报、答辩、路演或个人展示需求，但不擅长梳理页面逻辑的人；
+- 希望利用 AI 提升 PPT 审美，同时保留后续人工编辑能力的人；
+- 经常需要逐页打磨，而不是一次性生成整套模板的人；
+- 希望在 Codex 或其他 Agent 中复用一套稳定 PPT 制作流程的开发者。
+
+## 核心能力
+
+- **内容成型**：从模糊想法、Markdown、文档或素材中提炼单页结论、证据与信息层级。
+- **风格校准**：通过参考图片、已有 PPT 或口头描述确定字体、配色、密度和视觉语言。
+- **视觉原型**：按需调用当前环境的生图能力，快速验证构图与审美方向。
+- **原生重建**：使用 PptxGenJS 将标题、正文、指标、形状、连接线、表格和图表重建为可编辑对象。
+- **逐页管理**：一页一个 `.mjs` 模块，可单独编译、确认、锁定，最后统一合并。
+- **质量检查**：同时检查渲染效果、画布溢出和 PPTX 对象结构，避免交付“整页截图”。
+
+## 工作流程
+
+1. 明确当前页面的受众、目的和核心结论；
+2. 讨论并确认页面文案与信息层级；
+3. 提供参考图或描述希望采用的视觉风格；
+4. 生成或绘制视觉原型，确认构图、配色与重点；
+5. 使用原生 PowerPoint 对象重建页面；
+6. 渲染预览并检查溢出、重叠和可编辑性；
+7. 锁定当前页面，继续制作下一页；
+8. 按 `manifest.json` 的顺序编译完整 PPTX。
+
+页面状态依次为：
+
+`idea → content-discussion → content-approved → visual-drafting → visual-approved → native-building → qa-passed → locked`
+
+## 能力边界
+
+- 视觉原型是设计参考，**不能自动无损转换**为语义化、可编辑的 PPT 对象；最终页面需要重新构建。
+- 不支持 PowerPoint 人工修改与代码之间的实时双向同步；页面锁定后以最后交付的 PPTX 为人工编辑入口。
+- 不自动生成复杂动画；建议在最终导出后由用户在 PowerPoint 中添加。
+- PNG/JPG 只用于照片、纹理和非关键装饰；重要文字、数据和结构不得封装在整页图片中。
+- SVG 适合图标和矢量装饰，但并不等同于 PowerPoint 原生文本、表格或图表。
+- 生图能力采用适配方式：Codex/ChatGPT 使用内置生图工具，其他 Agent 可调用自身可用的图片模型。
+
+## 快速开始
+
+将本仓库作为 Codex 技能使用：
+
+```bash
+git clone https://github.com/GRITJW/LLM4ppt_design.git ~/.codex/skills/build-polished-decks
+```
+
+创建一个独立的 PPT 工程：
+
+```bash
+python scripts/init_project.py ./my-deck
+cd my-deck
+npm install
+npm run build:page
+```
+
+编译当前页面：
+
+```bash
+node compile.mjs --only 001 --out output/page-001.pptx
+```
+
+编译完整演示文稿：
+
+```bash
+node compile.mjs --out output/deck.pptx
+```
+
+检查 PPTX 的原生对象和整页图片风险：
+
+```bash
+python scripts/check_editability.py output/deck.pptx --strict
+```
+
+## 项目结构
+
+```text
+SKILL.md              AI 执行工作流
+references/           内容、风格、图片与可编辑性规范
+scripts/              工程初始化和 PPTX 结构检查工具
+assets/starter/       可直接复制的 PptxGenJS 示例工程
+agents/openai.yaml    Codex 技能界面信息
+```
+
+默认采用 16:9 画布，中文字体为微软雅黑，英文与数字字体为 Times New Roman；所有主题配置均可在 `theme.json` 中修改。
+
+## License
+
+[MIT](LICENSE)
