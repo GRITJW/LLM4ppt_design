@@ -44,15 +44,50 @@
 - SVG 适合图标和矢量装饰，但并不等同于 PowerPoint 原生文本、表格或图表。
 - 生图能力采用适配方式：Codex/ChatGPT 使用内置生图工具，其他 Agent 可调用自身可用的图片模型。
 
-## 快速开始
+## 安装 Skill
 
-将本仓库作为 Codex 技能使用：
+### 推荐：让 Codex 技能安装器处理
 
-```bash
-git clone https://github.com/GRITJW/LLM4ppt_design.git ~/.codex/skills/build-polished-decks
+在 Codex 中输入：
+
+```text
+请使用 $skill-installer 从 https://github.com/GRITJW/LLM4ppt_design 安装根目录 Skill，名称设为 build-polished-decks。
 ```
 
-创建一个独立的 PPT 工程：
+技能安装器会将它放到 `$CODEX_HOME/skills/build-polished-decks`；未设置 `CODEX_HOME` 时，默认使用 `~/.codex/skills/build-polished-decks`。
+
+也可以直接调用 Codex 自带的安装脚本：
+
+```powershell
+python "$HOME\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" `
+  --repo GRITJW/LLM4ppt_design `
+  --path . `
+  --name build-polished-decks
+```
+
+### Windows PowerShell 手动安装
+
+不要把 `~/.codex/...` 直接作为 `git clone` 的目标参数；部分 Windows 终端会将 `~` 当作普通目录名。使用明确展开的 `$HOME`：
+
+```powershell
+$skillPath = Join-Path $HOME ".codex\skills\build-polished-decks"
+git clone https://github.com/GRITJW/LLM4ppt_design.git $skillPath
+```
+
+### macOS / Linux 手动安装
+
+```bash
+git clone https://github.com/GRITJW/LLM4ppt_design.git \
+  "${CODEX_HOME:-$HOME/.codex}/skills/build-polished-decks"
+```
+
+安装完成后，在下一轮 Codex 对话中使用 `$build-polished-decks`。如果当前客户端没有刷新技能列表，请新建任务或重启 Codex。
+
+## 创建 PPT 工程
+
+`npm install` **不是安装 Codex Skill**，它只负责安装生成 PPTX 所需的 PptxGenJS 运行依赖。
+
+先使用 Skill 附带的脚本创建一个独立 PPT 工程：
 
 ```bash
 python scripts/init_project.py ./my-deck
